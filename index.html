@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <title>Creative FullScreen Generator</title>
+    <meta name="description" content="Test tabmo">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./index.css">
+  </head>
+  <body>
+    <div class="creative-configurator">
+      <iframe id="creative-frame" frameBorder="0" scrolling="no" width="400" height="600"
+        src="./creativeFullScreen.html">
+      </iframe>
+      <ul>
+        <li class="creative-li">
+          Height
+          <input id="creative-height" type="text"/>
+        </li>
+        <li class="creative-li">
+          Width
+          <input id="creative-width" type="text"/>
+        </li>
+        <li class="creative-li">
+          Url de la video
+          <input id="creative-url" type="text"/>
+        </li>
+        <li class="creative-li">
+          Script généré : 
+        </li>
+        <textarea id="creative-script" value="toto"></textarea>
+      </ul>
+    </div>
+    <script src="./creativeFullscreen.js">
+    </script>
+    <script>
+    // Elements
+    const creativeHeight = document.getElementById('creative-height');
+    const creativeWidth = document.getElementById('creative-width');
+    const creativeUrl = document.getElementById('creative-url');
+    const creativeFrame = document.getElementById('creative-frame');
+    const creativeScript = document.getElementById('creative-script');
+    // Function script generator
+    const scriptCompletion = () => creativeScript.value = `
+      <script>
+        creativeGenerator('${creativeUrl.value}', ${creativeHeight.value}, ${creativeWidth.value})
+      <${'/'}script>
+      <script src="creativeFullscreen.js"><${'/'}script>
+        `;
+    // Events listeners
+    creativeHeight.addEventListener('change', () => {
+      creativeFrame.setAttribute('height', `${creativeHeight.value}`);
+      scriptCompletion();
+      creativeFrame.src = creativeFrame.src;
+    });
+    creativeWidth.addEventListener('change', () => {
+      creativeFrame.setAttribute('width', `${creativeWidth.value}`);
+      scriptCompletion();
+      creativeFrame.src = creativeFrame.src;
+    });
+    creativeUrl.addEventListener('change', () => {
+      const video = creativeFrame.contentWindow.document.getElementById('video');
+      video.setAttribute('src', `${creativeUrl.value}`)
+      scriptCompletion();
+    });
+    </script>
+  </body>
+</html>
